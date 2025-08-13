@@ -1,0 +1,61 @@
+
+{% extends "analytics/base.html" %}
+{% block content %}
+<h1>General Dashboard</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <h4>Trending Videos (last 7 days)</h4>
+    <ul class="list-group">
+      {% for v in trending %}
+        <li class="list-group-item">{{ v.video__title }} — {{ v.views }} views</li>
+      {% empty %}
+        <li class="list-group-item">No data</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h4>Most Active Users</h4>
+    <ul class="list-group">
+      {% for u in active_users %}
+        <li class="list-group-item">{{ u.name }} — {{ u.total_watch|default:0 }} sec</li>
+      {% empty %}
+        <li class="list-group-item">No data</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<hr>
+<h4>Genre Trends</h4>
+<canvas id="genreChart" width="400" height="150"></canvas>
+
+<hr>
+<h4>Time-of-day (hourly) heatmap (total watch seconds)</h4>
+<canvas id="heatmapChart" width="800" height="150"></canvas>
+
+<script>
+  const genreLabels = {{ genre_labels|safe }};
+  const genreData = {{ genre_data|safe }};
+
+  new Chart(document.getElementById('genreChart'), {
+    type: 'bar',
+    data: {
+      labels: genreLabels,
+      datasets: [{ label: 'Total watch seconds', data: genreData }]
+    }
+  });
+
+  const heatLabels = {{ heat_labels|safe }};
+  const heatData = {{ heat_data|safe }};
+
+  new Chart(document.getElementById('heatmapChart'), {
+    type: 'line',
+    data: {
+      labels: heatLabels,
+      datasets: [{ label: 'Total watch seconds', data: heatData }]
+    }
+  });
+</script>
+
+{% endblock %}

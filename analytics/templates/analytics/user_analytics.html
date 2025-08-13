@@ -1,0 +1,47 @@
+
+{% extends "analytics/base.html" %}
+{% block content %}
+<h1>User Analytics</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card p-3 mb-3">
+      <h5>Total watch time</h5>
+      <p>{{ total_watch }} seconds</p>
+    </div>
+    <div class="card p-3 mb-3">
+      <h5>Avg session duration</h5>
+      <p>{{ avg_session|floatformat:2 }} seconds</p>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <h5>Device Usage</h5>
+    <canvas id="deviceChart"></canvas>
+  </div>
+</div>
+
+<hr>
+<h4>Top Genres</h4>
+<ul class="list-group mb-3">
+  {% for g in top_genres %}
+  <li class="list-group-item">{{ g.video__genre }} — {{ g.total_watch }} sec</li>
+  {% endfor %}
+</ul>
+
+<h4>Top Videos</h4>
+<ul class="list-group">
+  {% for v in top_videos %}
+  <li class="list-group-item">{{ v.video__title }} — {{ v.views }} views (avg {{ v.avg_watch|floatformat:1 }}s)</li>
+  {% endfor %}
+</ul>
+
+<script>
+const deviceLabels = {{ device_labels|safe }};
+const deviceCounts = {{ device_counts|safe }};
+
+new Chart(document.getElementById('deviceChart'), {
+  type: 'pie',
+  data: { labels: deviceLabels, datasets: [{ data: deviceCounts }] }
+});
+</script>
+{% endblock %}
