@@ -14,16 +14,17 @@ It uses SQLite for storage and includes a management command to seed sample data
 ## Setup (local)
 ```bash
 # create venv and activate (example for Unix/macOS)
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 
 # install deps
 pip install -r requirements.txt
 
 # apply migrations
+python manage.py makemigrations analytics
 python manage.py migrate
 
-# create superuser (optional, to access admin)
+# create superuser
 python manage.py createsuperuser
 
 # seed sample data
@@ -39,5 +40,5 @@ Open dashboards:
 
 ## Notes
 - Charts use Chart.js CDN.
-- SQLite is used for simplicity. For production, switch to Postgres/MySQL.
-- The seed command creates ~10 users, 20 videos, 150 watch sessions.
+- SQLite is used for Database.
+- The seed command creates ~20 users, 50 videos, 500 watch sessions.

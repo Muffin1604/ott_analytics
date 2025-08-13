@@ -15,7 +15,7 @@ class Command(BaseCommand):
         genres = ['Drama','Comedy','Action','Sci-Fi','Documentary']
 
         # create users
-        for i in range(10):
+        for i in range(20):
             User.objects.create(
                 name=fake.name(),
                 email=fake.unique.email(),
@@ -23,7 +23,7 @@ class Command(BaseCommand):
             )
 
         # create videos
-        for i in range(20):
+        for i in range(50):
             Video.objects.create(
                 title=fake.sentence(nb_words=3),
                 genre=random.choice(genres),
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         users = list(User.objects.all())
         videos = list(Video.objects.all())
         # create sessions
-        for i in range(150):
+        for i in range(500):
             user = random.choice(users)
             video = random.choice(videos)
             start = timezone.now() - timedelta(days=random.randint(0, 10), hours=random.randint(0,23), minutes=random.randint(0,59))
